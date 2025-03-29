@@ -1,11 +1,20 @@
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCountryDetails } from "../redux/slices/countrySlice";
+import { AppDispatch, RootState } from "../redux/store";
 
 function CountryDetail() {
+  const dispatch = useDispatch<AppDispatch>();
   const { countryDetails, loading, error } = useSelector(
     (state: RootState) => state.country
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearCountryDetails());
+    };
+  }, [dispatch]);
 
   if (loading)
     return (
@@ -13,12 +22,13 @@ function CountryDetail() {
         Loading...
       </div>
     );
+
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 ">
+    <div className="bg-white rounded-lg shadow-md p-4">
       {/* Accessing the flag from the 'flag' property */}
-      {countryDetails.flag ? (
+      {countryDetails?.flag ? (
         <Image
           className="w-10 h-10 object-cover"
           src={countryDetails.flag}
@@ -35,15 +45,15 @@ function CountryDetail() {
         <p>Population: {countryDetails?.population}</p>
         <h2>Language(s)</h2>
         {countryDetails?.languages &&
-          Object.keys(countryDetails?.languages)?.map((key: string) => (
+          Object.keys(countryDetails?.languages).map((key) => (
             <p key={key}>{countryDetails?.languages?.[key]}</p>
           ))}
-        <h2>currency</h2>
+        <h2>Currency</h2>
         {countryDetails?.currency &&
-          Object.keys(countryDetails?.currency)?.map((key: string) => (
+          Object.keys(countryDetails?.currency).map((key) => (
             <div key={key}>
-              <p>name: {countryDetails?.currency?.[key]?.name}</p>
-              <p>symbol: {countryDetails?.currency?.[key]?.symbol}</p>
+              <p>Name: {countryDetails?.currency?.[key]?.name}</p>
+              <p>Symbol: {countryDetails?.currency?.[key]?.symbol}</p>
             </div>
           ))}
       </div>

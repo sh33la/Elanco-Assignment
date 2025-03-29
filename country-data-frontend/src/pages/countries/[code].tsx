@@ -17,6 +17,7 @@ function CountryCode() {
   const dispatch = useDispatch<AppDispatch>();
   const { code } = router.query;
   const countryCode = Array.isArray(code) ? code[0] : code ?? "";
+
   useEffect(() => {
     const fetchCountryDetails = async () => {
       dispatch(fetchCountryDetailsStart());
@@ -29,13 +30,13 @@ function CountryCode() {
         }
       } catch (error) {
         dispatch(fetchCountryDetailsFailure("Failed to fetch country details"));
-        throw error;
       }
     };
     if (countryCode) {
       fetchCountryDetails();
     }
   }, []);
+
   return (
     <div>
       <TimeDisplay />

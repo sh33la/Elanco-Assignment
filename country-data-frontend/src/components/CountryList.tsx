@@ -40,7 +40,6 @@ function CountryList() {
         }
       } catch (err) {
         dispatch(fetchCountriesFailure("Failed to fetch countries"));
-        throw err;
       }
     };
     if (!countries.length) {

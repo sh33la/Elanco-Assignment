@@ -36,6 +36,9 @@ const countrySlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    clearCountryDetails: (state) => {
+      state.countryDetails = {};
+    },
   },
 });
 
@@ -46,5 +49,6 @@ export const {
   fetchCountryDetailsStart,
   fetchCountryDetailsSuccess,
   fetchCountryDetailsFailure,
+  clearCountryDetails,
 } = countrySlice.actions;
 export default countrySlice.reducer;
