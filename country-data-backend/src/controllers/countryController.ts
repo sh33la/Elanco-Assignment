@@ -11,6 +11,7 @@ export const getCountries = async (req: Request, res: Response) => {
       name: country.name.common,
       flag: country.flags.svg,
       region: country.region,
+      countryCode: country.cca3,
     }));
     res.json(countries);
   } catch (error) {
@@ -34,6 +35,7 @@ export const getCountryByCode = async (req: Request, res: Response) => {
       languages: country.languages,
       region: country.region,
       currency: country.currencies,
+      timezones: country.timezones,
     });
   } catch (error) {
     console.error("Error fetching countries:", error);
