@@ -23,22 +23,21 @@ function CountryList() {
         const response = await countryService.getCountriesList();
         if (response.status === 200) {
           dispatch(fetchCountriesSuccess(response.data));
+          // Get unique regions for dropdown
+          const regionList: string[] = [
+            "All",
+            ...Array.from(
+              new Set<string>(
+                response?.data
+                  ?.map((country: ICountry) => country.region)
+                  .filter(Boolean)
+              )
+            ),
+          ];
+          dispatch(setRegionList(regionList));
         } else {
           dispatch(fetchCountriesFailure(response.data));
         }
-
-        // Get unique regions for dropdown
-        const regionList: string[] = [
-          "All",
-          ...Array.from(
-            new Set<string>(
-              response?.data
-                ?.map((country: ICountry) => country.region)
-                .filter(Boolean)
-            )
-          ),
-        ];
-        dispatch(setRegionList(regionList));
       } catch (err) {
         dispatch(fetchCountriesFailure("Failed to fetch countries"));
         throw err;
@@ -50,16 +49,16 @@ function CountryList() {
   }, []);
 
   return (
-    <div>
-      <div className="grid grid-cols-4 gap-4">
-        {countries.length > 0 ? (
-          countries.map((country: ICountry) => (
-            <CountryCard key={country.countryCode} country={country} />
-          ))
-        ) : (
-          <p className="text-gray-500">No countries found.</p>
-        )}
-      </div>
+    <div className="grid grid-cols-4 gap-4">
+      {countries?.length > 0 ? (
+        countries?.map((country: ICountry) => (
+          <div key={country.countryCode}>
+            <CountryCard country={country} />
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-500">No countries found.</p>
+      )}
     </div>
   );
 }

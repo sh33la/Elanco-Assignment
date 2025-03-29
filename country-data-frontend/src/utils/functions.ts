@@ -40,5 +40,5 @@ export const getCurrentTimeFromOffset = (utcOffset: string): string => {
   }
 };
 
-// Usage example:
-console.log(getCurrentTimeFromOffset("UTC+05:30")); // Returns time in HH:MM:SS AM/PM format
+// Helper function to check if input is a number (timezone)
+export const isNumeric = (value: string) => !isNaN(Number(value));
