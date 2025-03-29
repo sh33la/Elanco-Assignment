@@ -1,5 +1,18 @@
+import { useRouter } from "next/router";
+
 function BackButton() {
-  return <div>BackButton</div>;
+  const router = useRouter();
+  return (
+    <div>
+      <button
+        onClick={() => {
+          router.push("/");
+        }}
+      >
+        Back
+      </button>
+    </div>
+  );
 }
 
 export default BackButton;
