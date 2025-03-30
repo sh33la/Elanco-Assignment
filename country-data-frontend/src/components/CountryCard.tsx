@@ -13,8 +13,9 @@ function CountryCard(props: Readonly<ICountryCard>) {
   return (
     <>
       {/* Display filtered countries */}
-      <button
+      <div
         key={country.name}
+        data-testid={`country-card-${country.countryCode}`}
         className="bg-white rounded-lg shadow-md p-4 cursor-pointer"
         onClick={() => {
           router.push(`/countries/${country.countryCode}`);
@@ -36,7 +37,7 @@ function CountryCard(props: Readonly<ICountryCard>) {
           <h2>{country.name}</h2>
           <p>{country.region}</p>
         </div>
-      </button>
+      </div>
     </>
   );
 }

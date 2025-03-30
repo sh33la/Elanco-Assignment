@@ -32,8 +32,8 @@ describe("CountryCard Component", () => {
 
   it("navigates to the correct country page on click", () => {
     render(<CountryCard country={mockCountry} />);
-    const button = screen.getByRole("button");
-    fireEvent.click(button);
+    const div = screen.getByTestId(`country-card-${mockCountry.countryCode}`);
+    fireEvent.click(div);
     expect(mockPush).toHaveBeenCalledWith("/countries/IN");
   });
 
