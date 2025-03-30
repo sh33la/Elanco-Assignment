@@ -13,6 +13,8 @@ export interface ICountryDetials {
   region?: string;
   currency?: Record<string, Record<string, string>>;
   timezones?: string[];
+  maps?: { googleMaps: string; openStreetMaps: string };
+  capital?: string[];
 }
 
 export interface ICountryState {

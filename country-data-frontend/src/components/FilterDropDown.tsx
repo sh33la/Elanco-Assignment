@@ -8,7 +8,6 @@ import {
 import { setSelectedRegion } from "../redux/slices/filterSlice";
 import { AppDispatch, RootState } from "../redux/store";
 import { countryService } from "../services/countryService";
-import { ICountry } from "../types/country";
 
 function FilterDropDown() {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,22 +22,27 @@ function FilterDropDown() {
   const searchCountries = useCallback(
     async (region: string) => {
       dispatch(fetchCountriesStart());
+
       try {
-        const response = await countryService.getCountriesByRegion(region);
-        if (response.status === 200) {
-          const countryDetails: ICountry[] = response?.data?.map(
-            (country: any) => ({
+        const response = region
+          ? await countryService.getCountriesByRegion(region)
+          : await countryService.getCountriesList();
+
+        if (response.status !== 200) {
+          throw new Error(response.data || "Failed to fetch countries");
+        }
+
+        const countryData = region
+          ? response.data.map((country: any) => ({
               name: country?.name?.common,
               flag: country?.flags?.svg,
               region: country?.region,
               countryCode: country?.cca3,
-            })
-          );
-          dispatch(fetchCountriesSuccess(countryDetails));
-        } else {
-          dispatch(fetchCountriesFailure(response.data));
-        }
-      } catch (err) {
+            }))
+          : response.data;
+
+        dispatch(fetchCountriesSuccess(countryData));
+      } catch (error) {
         dispatch(fetchCountriesFailure("Failed to fetch country details"));
       }
     },
@@ -46,12 +50,15 @@ function FilterDropDown() {
   );
 
   return (
-    <div className="mb-4">
+    <div>
       <select
-        className="p-2 border rounded w-full"
+        className="p-2 border border-gray-300 rounded-md w-full"
         value={selectedRegion}
         onChange={(e) => handleSelect(e.target.value)}
       >
+        <option key={"all_regions"} value={""}>
+          {"All"}
+        </option>
         {regionList?.map((region: string) => (
           <option key={region} value={region}>
             {region}

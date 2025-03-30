@@ -3,11 +3,10 @@ import SearchBar from "./SearchBar";
 
 function Header() {
   return (
-    <div>
-      Header
+    <header className="flex flex-col md:flex-row justify-between items-center p-4 bg-white shadow-md sticky top-0">
       <SearchBar />
       <FilterDropDown />
-    </div>
+    </header>
   );
 }
 

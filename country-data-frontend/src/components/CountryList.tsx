@@ -25,7 +25,6 @@ function CountryList() {
           dispatch(fetchCountriesSuccess(response.data));
           // Get unique regions for dropdown
           const regionList: string[] = [
-            "All",
             ...Array.from(
               new Set<string>(
                 response?.data
@@ -48,7 +47,7 @@ function CountryList() {
   }, []);
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {countries?.length > 0 ? (
         countries?.map((country: ICountry) => (
           <div key={country.countryCode}>

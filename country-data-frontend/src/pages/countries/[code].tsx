@@ -1,6 +1,5 @@
 import BackButton from "@/src/components/BackButton";
 import CountryDetail from "@/src/components/CountryDetail";
-import TimeDisplay from "@/src/components/TimeDisplay";
 import {
   fetchCountryDetailsFailure,
   fetchCountryDetailsStart,
@@ -38,10 +37,16 @@ function CountryCode() {
   }, []);
 
   return (
-    <div>
-      <TimeDisplay />
-      <BackButton />
-      <CountryDetail />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6 relative">
+      {/* Country Detail - Centered */}
+      <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
+        <CountryDetail />
+      </div>
+
+      {/* Back Button - Positioned at bottom-right corner */}
+      <div className="fixed bottom-6 right-6">
+        <BackButton />
+      </div>
     </div>
   );
 }

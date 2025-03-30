@@ -36,6 +36,8 @@ export const getCountryByCode = async (req: Request, res: Response) => {
       region: country.region,
       currency: country.currencies,
       timezones: country.timezones,
+      maps: country.maps,
+      capital: country.capital,
     });
   } catch (error) {
     console.error("Error fetching countries:", error);

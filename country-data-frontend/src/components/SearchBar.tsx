@@ -53,20 +53,14 @@ function SearchBar() {
 
   return (
     <div>
-      SearchBar {/* Search Input */}
-      <div className="mb-4">
-        <label htmlFor="search" className="block text-gray-700">
-          Search for a Country
-        </label>
-        <input
-          id="search"
-          type="text"
-          placeholder="Enter country name"
-          className="border border-gray-300"
-          value={searchTerm}
-          onChange={(e) => handleChange(e.target.value.trim())}
-        />
-      </div>
+      <input
+        id="search"
+        type="text"
+        placeholder="Search by country name, capital, or timezone"
+        className="p-2 border border-gray-300 rounded-md w-[32ch] md:w-[40ch] lg:w-[50ch]"
+        value={searchTerm}
+        onChange={(e) => handleChange(e.target.value.trim())}
+      />
     </div>
   );
 }

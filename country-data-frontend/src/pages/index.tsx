@@ -15,7 +15,7 @@ export default function Home() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="p-6">
+    <div className="p-6 flex flex-col gap-6">
       <Header />
       <CountryList />
     </div>
