@@ -26,6 +26,11 @@ This project is a full-stack web application that displays country information u
 - Start the Frontend Application: npm run dev
   By default, the frontend runs on http://localhost:3000
 
+  ## Test Coverage
+
+  - Navigate to Frontend Directory: cd country-data-frontend
+  - To check test coverage: npm run coverage
+
   ## Redux DevTools
 
 - To debug and monitor state changes in the frontend, use the Redux DevTools Chrome extension
