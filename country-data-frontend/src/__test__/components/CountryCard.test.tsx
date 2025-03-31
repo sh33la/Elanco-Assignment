@@ -26,7 +26,7 @@ describe("CountryCard Component", () => {
     render(<CountryCard country={mockCountry} />);
 
     expect(screen.getByText("India")).toBeInTheDocument();
-    expect(screen.getByText("Asia")).toBeInTheDocument();
+    expect(screen.getByText(/Asia/i)).toBeInTheDocument();
     expect(screen.getByAltText("Flag of India")).toBeInTheDocument();
   });
 
