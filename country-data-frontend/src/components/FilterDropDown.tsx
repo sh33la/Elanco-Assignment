@@ -43,7 +43,7 @@ function FilterDropDown() {
 
         dispatch(fetchCountriesSuccess(countryData));
       } catch (error) {
-        dispatch(fetchCountriesFailure("Failed to fetch country details"));
+        dispatch(fetchCountriesFailure("Failed to fetch countries"));
       }
     },
     [dispatch]
@@ -57,7 +57,7 @@ function FilterDropDown() {
         onChange={(e) => handleSelect(e.target.value)}
       >
         <option key={"all_regions"} value={""}>
-          {"All"}
+          {"Select Region"}
         </option>
         {regionList?.map((region: string) => (
           <option key={region} value={region}>

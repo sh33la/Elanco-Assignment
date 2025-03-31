@@ -16,7 +16,7 @@ function CountryCard(props: Readonly<ICountryCard>) {
       <div
         key={country.name}
         data-testid={`country-card-${country.countryCode}`}
-        className="bg-white rounded-lg shadow-md p-4 cursor-pointer"
+        className="bg-white rounded-lg shadow-md p-4 cursor-pointer h-full flex flex-col"
         onClick={() => {
           router.push(`/countries/${country.countryCode}`);
         }}
@@ -34,8 +34,8 @@ function CountryCard(props: Readonly<ICountryCard>) {
           <p className="text-center">No Flag Available</p>
         )}
         <div className="mt-2 text-center">
-          <h2>{country.name}</h2>
-          <p>{country.region}</p>
+          <h2 className="font-bold">{country.name}</h2>
+          <p>&#127760; {country.region}</p>
         </div>
       </div>
     </>

@@ -38,12 +38,7 @@ function CountryCode() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6 relative">
-      {/* Country Detail - Centered */}
-      <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
-        <CountryDetail />
-      </div>
-
-      {/* Back Button - Positioned at bottom-right corner */}
+      <CountryDetail />
       <div className="fixed bottom-6 right-6">
         <BackButton />
       </div>

@@ -11,7 +11,7 @@ function TimeDisplay() {
       <p className="text-lg font-medium text-gray-800">
         &#128339; Time Zone: {!loading && countryDetails?.timezones?.[0]}
       </p>
-      <div className="mt-2 text-xl font-semibold text-gray-700">
+      <div className="mt-2 text-lg font-semibold text-gray-700">
         &#8987; Current Time:{" "}
         {!loading &&
           countryDetails?.timezones?.length &&

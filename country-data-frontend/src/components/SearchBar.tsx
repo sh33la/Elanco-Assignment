@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCountriesFailure,
@@ -13,55 +13,72 @@ import { isNumeric } from "../utils/functions";
 
 function SearchBar() {
   const dispatch = useDispatch<AppDispatch>();
-  const { searchTerm } = useSelector((state: RootState) => state.search);
+  const reduxSearchTerm = useSelector(
+    (state: RootState) => state.search.searchTerm
+  );
+  const [inputValue, setInputValue] = useState(reduxSearchTerm);
+  const [debouncedValue, setDebouncedValue] = useState(reduxSearchTerm);
 
-  const handleChange = (searchValue: string) => {
-    dispatch(setSearchTerm(searchValue));
-    if (isNumeric(searchValue) || searchValue.includes("UTC")) {
-      searchCountries(searchValue, "timezone");
-    } else if (/^[A-Za-z\s]+$/.test(searchValue)) {
-      searchCountries(searchValue, "name");
+  useEffect(() => {
+    setInputValue(reduxSearchTerm);
+    setDebouncedValue(reduxSearchTerm);
+  }, [reduxSearchTerm]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (inputValue !== debouncedValue) {
+        setDebouncedValue(inputValue);
+      }
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [inputValue]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      dispatch(fetchCountriesStart());
+
+      try {
+        const payload =
+          isNumeric(debouncedValue) || debouncedValue.includes("UTC")
+            ? { timezone: debouncedValue }
+            : { name: debouncedValue, capital: debouncedValue };
+        const response = await countryService.searchCountries(payload);
+        if (response.status !== 200) {
+          throw new Error(response.data || "Failed to fetch countries");
+        }
+
+        const countryDetails: ICountry[] = response?.data?.map(
+          (country: any) => ({
+            name: country?.name?.common,
+            flag: country?.flags?.svg,
+            region: country?.region,
+            countryCode: country?.cca3,
+          })
+        );
+        dispatch(fetchCountriesSuccess(countryDetails));
+      } catch (err) {
+        dispatch(fetchCountriesFailure("Failed to fetch countries"));
+      }
+    };
+
+    if (reduxSearchTerm !== debouncedValue) {
+      dispatch(setSearchTerm(debouncedValue));
+      fetchCountries();
     }
+  }, [debouncedValue, dispatch, reduxSearchTerm]);
+
+  const handleChange = (value: string) => {
+    setInputValue(value); // Update local state
   };
 
-  const searchCountries = useCallback(
-    async (searchValue: string, searchParam: string) => {
-      dispatch(fetchCountriesStart());
-      try {
-        const response = await countryService.searchCountries({
-          [searchParam]: searchValue,
-        });
-        if (response.status === 200) {
-          const countryDetails: ICountry[] = response?.data?.map(
-            (country: any) => ({
-              name: country?.name?.common,
-              flag: country?.flags?.svg,
-              region: country?.region,
-              countryCode: country?.cca3,
-            })
-          );
-          dispatch(fetchCountriesSuccess(countryDetails));
-        } else {
-          dispatch(fetchCountriesFailure(response.data));
-        }
-      } catch (err) {
-        dispatch(fetchCountriesFailure("Failed to fetch country details"));
-      }
-    },
-    [dispatch]
-  );
-
   return (
-    <div>
-      <input
-        id="search"
-        type="text"
-        placeholder="Search by country name, capital, or timezone"
-        className="p-2 border border-gray-300 rounded-md w-[32ch] md:w-[40ch] lg:w-[50ch]"
-        value={searchTerm}
-        onChange={(e) => handleChange(e.target.value.trim())}
-      />
-    </div>
+    <input
+      type="text"
+      placeholder="Search countries..."
+      value={inputValue}
+      onChange={(e) => handleChange(e.target.value.trim())}
+      className="p-2 border border-gray-300 rounded-md w-[32ch] md:w-[40ch] lg:w-[50ch]"
+    />
   );
 }
 

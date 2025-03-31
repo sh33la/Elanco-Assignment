@@ -14,7 +14,9 @@ import { setRegionList } from "../redux/slices/filterSlice";
 
 function CountryList() {
   const dispatch = useDispatch<AppDispatch>();
-  const { countries } = useSelector((state: RootState) => state.country);
+  const { countries, loading, error } = useSelector(
+    (state: RootState) => state.country
+  );
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -47,17 +49,29 @@ function CountryList() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {countries?.length > 0 ? (
-        countries?.map((country: ICountry) => (
-          <div key={country.countryCode}>
-            <CountryCard country={country} />
-          </div>
-        ))
+    <>
+      {loading ? (
+        <div className="flex justify-center items-center w-full min-h-[50vh]">
+          <p className="text-gray-500">Loading...</p>
+        </div>
       ) : (
-        <p className="text-gray-500">No countries found.</p>
+        <div className="flex justify-center items-center w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-screen-lg w-full">
+            {error ? (
+              <p className="text-red-500">{error}</p>
+            ) : countries?.length > 0 ? (
+              countries?.map((country: ICountry) => (
+                <div key={country.countryCode}>
+                  <CountryCard country={country} />
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">No countries found.</p>
+            )}
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 }
 
