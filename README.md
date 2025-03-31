@@ -25,3 +25,11 @@ This project is a full-stack web application that displays country information u
 - Install Dependencies: npm install
 - Start the Frontend Application: npm run dev
   By default, the frontend runs on http://localhost:3000
+
+  ## Redux DevTools
+
+- To debug and monitor state changes in the frontend, use the Redux DevTools Chrome extension
+- Install Redux DevTools from the Chrome Web Store.
+- Open your React app in the browser.
+- Press F12 to open Developer Tools and navigate to the Redux tab.
+- Track dispatched actions, inspect the state, and debug changes effectively
